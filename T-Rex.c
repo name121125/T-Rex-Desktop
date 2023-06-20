@@ -55,7 +55,7 @@ int main() {
 	SDL_RenderCopy(render, background_texture, NULL, &back_rect3);
         SDL_RenderCopy(render, trex_texture, NULL,&rect);
 	SDL_RenderPresent(render);
-	SDL_Delay(1);
+	SDL_Delay(20);
     }
     SDL_DestroyRenderer(render);
     SDL_DestroyTexture(trex_texture);
