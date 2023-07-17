@@ -16,12 +16,15 @@
 int main() {
     int exit = 1;
     int distance = 0;
-    SDL_Rect rect = {(WINDOW_WIDTH - 100)/2, (WINDOW_HEIGHT - 100)/2, 100, 100};
+    SDL_Rect rect = {(WINDOW_WIDTH - 100)/2, 145, 150, 150};
    
     SDL_Rect back_rect = {0, 12, WINDOW_WIDTH, WINDOW_HEIGHT};
-    
-    SDL_Rect back_rect2 = {772, 12, WINDOW_WIDTH, WINDOW_HEIGHT};
-    SDL_Rect back_rect3 = {1544, 12, WINDOW_WIDTH, WINDOW_HEIGHT};
+    SDL_Rect back_rect2 = {1544, 12, WINDOW_WIDTH, WINDOW_HEIGHT};
+    SDL_Rect back_rect3 = {3088, 12, WINDOW_WIDTH, WINDOW_HEIGHT};
+    SDL_Rect message_dist = {10, 10, 100, 100};
+
+    TTF_Font* Sans = TTF_OpenFont("FreeMono.ttf", 50);
+    SDL_Color Grey = {83, 83, 83};
 
     SDL_Event event;
 
@@ -32,6 +35,10 @@ int main() {
     SDL_Surface* trex_surface = NULL;
     SDL_Texture* trex_texture = NULL;
     SDL_Texture* trex_texture2 = NULL;
+    
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(Sans, "test", Grey);
+    SDL_Texture* Message = SDL_CreateTextureFromSurface(render, surfaceMessage);
+
 
     window = SDL_CreateWindow("T_Rex", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
     render = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
@@ -39,7 +46,9 @@ int main() {
     background_texture = IMG_LoadTexture(render, "res/background.png"); 
     trex_texture = IMG_LoadTexture(render, "res/dino.png");
     trex_texture2 = IMG_LoadTexture(render,"res/dino2.png");
-	
+    
+    SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
+    
     while (exit) 
     {
 
@@ -47,17 +56,15 @@ int main() {
 	if (event.type == SDL_QUIT) exit = 0;
 
 	distance = distance + 1;
-	printf("%d\n", distance);
+
 	back_rect.x -= 10;
 	back_rect2.x -= 10;
 	back_rect3.x -= 10;
 	
-	if (back_rect.x < -772) { back_rect.x = 1544; }
-	if (back_rect2.x < -772) { back_rect2.x = 1544; }
-	if (back_rect3.x < -772) { back_rect3.x = 1544; }
+	if (back_rect.x < -1544) { back_rect.x = 3088; }
+	if (back_rect2.x < -1544) { back_rect2.x = 3088; }
+	if (back_rect3.x < -1544) { back_rect3.x = 3088; }
 	
-	SDL_RenderClear(render);
-	SDL_SetRenderDrawColor(render, 255, 255, 255, 255);
 	SDL_RenderCopy(render, background_texture, NULL, &back_rect);
 	SDL_RenderCopy(render, background_texture, NULL, &back_rect2);
 	SDL_RenderCopy(render, background_texture, NULL, &back_rect3);
@@ -68,6 +75,7 @@ int main() {
 	    SDL_RenderCopy(render, trex_texture2, NULL, &rect);
 	    
 	}
+	SDL_RenderCopy(render, Message, NULL, &message_dist);
 
 	SDL_RenderPresent(render);
 	SDL_Delay(100);
